@@ -1,0 +1,5 @@
+*.o
+web/*.wasm
+web/*.js
+web/*.html
+303freqgui
