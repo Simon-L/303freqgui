@@ -4,7 +4,7 @@
 
 Moved out of tree and includes workardound for emscripten, currently being investigated
 
-```
+```diff
 commit 773e7e96f95b69605d85e133367ccb4257d6e638 (HEAD -> master)
 Author: Simon-L <lumis@xulepth.fr>
 Date:   Mon Mar 13 15:24:17 2023 +0100
