@@ -4,6 +4,8 @@
 
 Moved out of tree and includes workardound for emscripten, currently being investigated
 
+Online version of a probably outdated commit: https://brouillon.synthe.tiseur.fr/303/
+
 ```diff
 commit 773e7e96f95b69605d85e133367ccb4257d6e638 (HEAD -> master)
 Author: Simon-L <lumis@xulepth.fr>

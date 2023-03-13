@@ -16,14 +16,16 @@
 CC = emcc
 CXX = em++
 WEB_DIR = web
-EXE = $(WEB_DIR)/index.html
+EXE = $(WEB_DIR)/index.js
 IMGUI_DIR = imgui
 SOURCES = main.cpp
 SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 SOURCES += $(IMGUI_DIR)/backends/imgui_impl_glfw.cpp $(IMGUI_DIR)/backends/imgui_impl_opengl3.cpp
-OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
+SOURCES += implot/implot.cpp implot/implot_items.cpp implot/implot_demo.cpp
+SOURCES += 303window.cpp
+OBJS = $(addsuffix .o_em, $(basename $(notdir $(SOURCES))))
 UNAME_S := $(shell uname -s)
-CPPFLAGS =
+CPPFLAGS = 
 LDFLAGS =
 EMS =
 
@@ -56,7 +58,7 @@ endif
 ## FINAL BUILD FLAGS
 ##---------------------------------------------------------------------
 
-CPPFLAGS += -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends
+CPPFLAGS += -std=c++17 -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends -Iimplot -Ichowdsp_wdf/include
 #CPPFLAGS += -g
 CPPFLAGS += -Wall -Wformat -Os $(EMS)
 # LDFLAGS += --shell-file ../libs/emscripten/shell_minimal.html
@@ -66,13 +68,17 @@ LDFLAGS += $(EMS)
 ## BUILD RULES
 ##---------------------------------------------------------------------
 
-%.o:%.cpp
+%.o_em:%.cpp
+	@echo File: $@ $<
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
-%.o:$(IMGUI_DIR)/%.cpp
+%.o_em:implot/%.cpp
+	$(CXX) $(CXXFLAGS) -Iimgui -c -o $@ $<
+
+%.o_em:$(IMGUI_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
-%.o:$(IMGUI_DIR)/backends/%.cpp
+%.o_em:$(IMGUI_DIR)/backends/%.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -o $@ $<
 
 all: $(EXE)
@@ -88,4 +94,4 @@ $(EXE): $(OBJS) $(WEB_DIR)
 	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
 
 clean:
-	rm -rf $(OBJS) $(WEB_DIR)
+	rm -rf $(OBJS) $(WEB_DIR)/index.js $(WEB_DIR)/index.wasm
