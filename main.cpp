@@ -201,6 +201,7 @@ int main(int, char**)
     ImVec4 clear_color = ImVec4(0.286f, 0.337f, 0.259f, 1.00f);
 
     init303Window();
+    int display_w, display_h;
 
     // Main loop
 #ifdef __EMSCRIPTEN__
@@ -233,7 +234,8 @@ int main(int, char**)
             ImGui::ShowDemoWindow(&show_demo_window);
 
         ImGui::SetNextWindowPos(ImVec2(0, 19));
-        ImGui::SetNextWindowSize(ImVec2(1580, 950-19));
+        // ImGui::SetNextWindowSize(ImVec2(1580, 950-19));
+        ImGui::SetNextWindowSize(ImVec2(display_w, display_h-19));
         show303Window();
 
         // 3. Show another simple window.
@@ -248,7 +250,6 @@ int main(int, char**)
 
         // Rendering
         ImGui::Render();
-        int display_w, display_h;
         glfwGetFramebufferSize(window, &display_w, &display_h);
         glViewport(0, 0, display_w, display_h);
         glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
